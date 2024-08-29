@@ -4,7 +4,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
 #include <assert.h>
@@ -12,6 +11,7 @@
 #include <archive.h>
 #include <archive_entry.h>
 
+// define required for #include <archive_read_private.h>
 #define __LIBARCHIVE_BUILD
 #include <archive_read_private.h>
 
@@ -81,7 +81,7 @@ main(int argc, const char **argv)
         return r;
     }
     
-    while(true)
+    while(1)
     {
         struct archive_entry *entry;
         r = archive_read_next_header(a, &entry);
@@ -93,20 +93,24 @@ main(int argc, const char **argv)
             return r;
         }
 
-        printf("x %s\n", archive_entry_pathname(entry));
         const void* buff;
         size_t len;
         int64_t offset;
         archive_read_data_block(a, &buff, &len, &offset);
         
-        if(archive_entry_size_is_set(entry) != 0 && last_file_buff != NULL && last_file_buff <= buff && buff < last_file_buff + last_file_block_size)
-            printf("    dd if=\"%s\" of=\"%s\" bs=1 skip=%zu count=%zu", argv[1], archive_entry_pathname(entry), last_file_offset + (size_t)(buff - last_file_buff), (size_t)archive_entry_size(entry));
+        int filetype = archive_entry_filetype(entry);
+        if(filetype == AE_IFREG && archive_entry_size_is_set(entry) != 0 && last_file_buff != NULL && last_file_buff <= buff && buff < last_file_buff + last_file_block_size)
+        {
+            size_t byte_offset = last_file_offset + (size_t)(buff - last_file_buff);
+            size_t byte_size = (size_t)archive_entry_size(entry);
+            printf("dd if=\"%s\" of=\"%s\" bs=1 skip=%zu count=%zu #OK\n", filename, archive_entry_pathname(entry), byte_offset, byte_size);
+        }
+        else
+            printf("#NO %s %s : %d\n", archive_entry_pathname(entry), filetype == AE_IFMT ? "AE_IFMT" : filetype == AE_IFREG ? "AE_IFREG" : filetype == AE_IFLNK ? "AE_IFLNK" : filetype == AE_IFSOCK ? "AE_IFSOCK" : filetype == AE_IFCHR ? "AE_IFCHR" : filetype == AE_IFBLK ? "AE_IFBLK" : filetype == AE_IFDIR ? "AE_IFDIR" : filetype == AE_IFIFO ? "AE_IFIFO" : "archive_entry_pathname(entry) value is unknown", filetype);
         
         archive_read_data_skip(a);
-        printf("\n");
     }
     archive_read_close(a);
     archive_read_free(a);
     return 0;
 }
-
