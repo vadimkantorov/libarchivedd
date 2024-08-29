@@ -1,6 +1,6 @@
-[libarchive](https://github.com/libarchive/libarchive) primer of printing byte offsets/sizes for uncompressed entries in formats: TAR, ZIP, ISO
+# [libarchive](https://github.com/libarchive/libarchive) primer of printing byte offsets/sizes for uncompressed entries in formats: TAR, ZIP, ISO
 
-On 29 august 2024 [libarchive](https://github.com/libarchive/libarchive) does not support built-in calculation of byte offsets of uncompressed entries. So a hack is needed. This feature might hopefully be added natively to libarchive in the future (so the hack in this primer would become not needed), see [issues](https://github.com/libarchive/libarchive/issues/2295) referenced below.
+On 29 august 2024 [libarchive](https://github.com/libarchive/libarchive) does not support built-in calculation of byte offsets of uncompressed entries. So a hack is needed. This feature might hopefully be added natively to libarchive in the future (so the hack in this primer would become not needed), see [issues](https://github.com/libarchive/libarchive/issues/2295) referenced below. Hack was developed with help of `libarchive` maintainer in discussion in https://github.com/libarchive/libarchive/issues/2283
 
 [`libarhivedd.c`](./libarchivedd.c) is modeled after https://github.com/libarchive/libarchive/blob/master/examples/untar.c and https://github.com/libarchive/libarchive/wiki/Examples#A_Complete_Extractor, another useful example is https://github.com/libarchive/libarchive/blob/master/contrib/untar.c
 
