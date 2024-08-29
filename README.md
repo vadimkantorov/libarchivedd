@@ -11,10 +11,18 @@ make
 make libarchivedd.tar libarchivedd.zip libarchivedd.iso
 
 ./libarchivedd libarchivedd.tar
-./libarchivedd libarchivedd.zip
-./libarchivedd libarchivedd.iso
-```
+#dd if="libarchivedd.tar" of="libarchivedd.c" bs=1 skip=512 count=3756
+#dd if="libarchivedd.tar" of="Makefile" bs=1 skip=5120 count=616
 
+./libarchivedd libarchivedd.zip
+#dd if="libarchivedd.zip" of="libarchivedd.c" bs=1 skip=72 count=3756
+#dd if="libarchivedd.zip" of="Makefile" bs=1 skip=3894 count=616
+
+./libarchivedd libarchivedd.iso
+#false #. AE_IFDIR : 16384
+#dd if="libarchivedd.iso" of="libarchivedd.c" bs=1 skip=63488 count=3756
+#dd if="libarchivedd.iso" of="Makefile" bs=1 skip=67584 count=616
+```
 
 # References
 - https://github.com/libarchive/libarchive/issues/2295

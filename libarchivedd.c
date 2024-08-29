@@ -103,10 +103,10 @@ main(int argc, const char **argv)
         {
             size_t byte_offset = last_file_offset + (size_t)(buff - last_file_buff);
             size_t byte_size = (size_t)archive_entry_size(entry);
-            printf("#dd if=\"%s\" of=\"%s\" bs=1 skip=%zu count=%zu #OK\n", filename, archive_entry_pathname(entry), byte_offset, byte_size);
+            printf("#dd if=\"%s\" of=\"%s\" bs=1 skip=%zu count=%zu\n", filename, archive_entry_pathname(entry), byte_offset, byte_size);
         }
         else
-            printf("#NO %s %s : %d\n", archive_entry_pathname(entry), filetype == AE_IFMT ? "AE_IFMT" : filetype == AE_IFREG ? "AE_IFREG" : filetype == AE_IFLNK ? "AE_IFLNK" : filetype == AE_IFSOCK ? "AE_IFSOCK" : filetype == AE_IFCHR ? "AE_IFCHR" : filetype == AE_IFBLK ? "AE_IFBLK" : filetype == AE_IFDIR ? "AE_IFDIR" : filetype == AE_IFIFO ? "AE_IFIFO" : "archive_entry_pathname(entry) value is unknown", filetype);
+            printf("#false #%s %s : %d\n", archive_entry_pathname(entry), filetype == AE_IFMT ? "AE_IFMT" : filetype == AE_IFREG ? "AE_IFREG" : filetype == AE_IFLNK ? "AE_IFLNK" : filetype == AE_IFSOCK ? "AE_IFSOCK" : filetype == AE_IFCHR ? "AE_IFCHR" : filetype == AE_IFBLK ? "AE_IFBLK" : filetype == AE_IFDIR ? "AE_IFDIR" : filetype == AE_IFIFO ? "AE_IFIFO" : "archive_entry_pathname(entry) value is unknown", filetype);
         
         archive_read_data_skip(a);
     }
