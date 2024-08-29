@@ -5,8 +5,10 @@ On 29 august 2024 [libarchive](https://github.com/libarchive/libarchive) does no
 [`libarhivedd.c`](./libarchivedd.c) is modeled after https://github.com/libarchive/libarchive/blob/master/examples/untar.c and https://github.com/libarchive/libarchive/wiki/Examples#A_Complete_Extractor, another useful example is https://github.com/libarchive/libarchive/blob/master/contrib/untar.c
 
 ```shell
+# configures and build libarchive static lib and ./libarchivedd executable
 make
 
+# prepare test archives
 # sudo apt install -y zip mkisofs
 make libarchivedd.tar libarchivedd.zip libarchivedd.iso
 
